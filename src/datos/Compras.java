@@ -16,8 +16,8 @@ import negocio.Producto;
  */
 
 /*Aquí implementaremos la interfaz COmentarCompra del problema*/
-public class Compras implements ComentarCompra{
-    
+public class Compras implements ComentarCompra {
+
     /*Declaramos el array como atributo*/
     private List<Producto> listaCompras;
 
@@ -25,36 +25,36 @@ public class Compras implements ComentarCompra{
     public Compras() {
         listaCompras = new ArrayList<>();
     }
-    
+
     /*Método para agregar elementos al array*/
-    public void agregarProducto(Producto producto){
+    public void agregarProducto(Producto producto) {
         listaCompras.add(producto);
     }
-    
+
     /*Método para sacar una boleta sencilla*/
-    public void generarBoleta(String direccion){
+    public void generarBoleta(String direccion) {
         /*Declaración de acumuladores*/
         int totalCompra = 0;
         int dscto = 0;
         int totalDsctos = 0;
-        
+
         System.out.println("***** Total Compra *****");
         /*For para hacer cada ítem de la boleta*/
         for (Producto item : listaCompras) {
             /*Si tiene descuento, se imprime una línea más indicando el valor*/
             System.out.println(item.getDescripcion() + " - " + item.getCantidad() + " Unidades - $" + item.calcularTotalProducto());
             if (item.getDscto() > 0) {
-                dscto = item.calcularDescuento()*item.getCantidad();
+                dscto = item.calcularDescuento() * item.getCantidad();
                 System.out.println("Descuento: -&" + dscto);
                 /*Aquí se acumulan los descuentos*/
                 totalDsctos = totalDsctos + dscto;
             }
             System.out.println("");
             /*Se acumulan valores*/
-            totalCompra = totalCompra + (item.calcularTotalProducto()-(item.calcularDescuento()*item.getCantidad()));
-                        
+            totalCompra = totalCompra + (item.calcularTotalProducto() - (item.calcularDescuento() * item.getCantidad()));
+
         }
-        
+
         System.out.println("Total compra: $" + totalCompra);
         System.out.println("Total descuentos: $" + totalDsctos);
         System.out.println("***** Detalles de envío ******");
@@ -67,5 +67,28 @@ public class Compras implements ComentarCompra{
     public String detallarDireccionEnvio(String direccion) {
         return "La dirección de envío es " + direccion;
     }
-    
+
+    public void mostrarLista() {
+        int n = 1;
+        for (Producto item : listaCompras) {
+            System.out.println("Producto " + n);
+            System.out.println("Descripción: " + item.getDescripcion() + "- Precio: $" + item.getPrecio()
+                    + "- Cantidad: " + item.getCantidad() + "- Dscto: $" + item.calcularDescuento()
+                    + "- Total: $" + (item.calcularTotalProducto() - item.calcularDescuento()));
+            System.out.println("");
+            n++;
+        }
+    }
+
+    public boolean eliminarProducto(String Descripcion) {
+
+        for (Producto item : listaCompras) {
+
+            if (item.getDescripcion().equalsIgnoreCase(Descripcion)) {
+                return listaCompras.remove(item);
+            }
+        }
+        return false;
+    }
+
 }
